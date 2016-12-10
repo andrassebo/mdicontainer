@@ -5,7 +5,7 @@ MDI support for WPF
 Please check the wiki sites.
 
 ### Example
-You can find a working examples next to the code.
+You can find a working example next to the code.
 
 ### Technical info
 * .NET C# 4.5

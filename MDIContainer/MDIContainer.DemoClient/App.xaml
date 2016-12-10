@@ -1,0 +1,16 @@
+﻿<Application x:Class="MDIContainer.DemoClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MDIContainer.DemoClient.ViewModels"
+             xmlns:v="clr-namespace:MDIContainer.DemoClient.Views"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type vm:PersonWindow}">
+            <v:PersonView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:PetWindow}">
+            <v:PetView />
+        </DataTemplate>
+    </Application.Resources>
+</Application>

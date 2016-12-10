@@ -1,0 +1,30 @@
+﻿<Window x:Class="MDIContainer.DemoClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:MDI="clr-namespace:MDIContainer.Control;assembly=MDIContainer.Control"
+        Title="MDI Demo" Height="400" Width="725">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical"  >
+            <ListView Margin="4" VerticalAlignment="Stretch" ItemsSource="{Binding People}" x:Name="PersonSelector" DisplayMemberPath="Name" SelectionMode="Single" />
+            <Button Margin="4" Command="{Binding ShowCommand}" VerticalAlignment="Bottom" Content="Show person" CommandParameter="{Binding ElementName=PersonSelector, Path=SelectedItem}" />
+
+            <ListView Margin="4" VerticalAlignment="Stretch" ItemsSource="{Binding Pets}" x:Name="PetSelector" DisplayMemberPath="Name" SelectionMode="Single" />
+            <Button Margin="4" Command="{Binding ShowPetCommand}" VerticalAlignment="Bottom" Content="Show pet" CommandParameter="{Binding ElementName=PetSelector, Path=SelectedItem}" />
+        </StackPanel>
+               
+
+        <MDI:MDIContainer Grid.Column="1" Margin="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
+            <MDI:MDIContainer.Resources>
+                <Style TargetType="{x:Type MDI:MDIWindow}">
+                    <Setter Property="Title" Value="{Binding Title}" />
+                    <Setter Property="CanClose" Value="{Binding CanClose, UpdateSourceTrigger=PropertyChanged}" />                 
+                </Style>
+            </MDI:MDIContainer.Resources>
+        </MDI:MDIContainer>
+    </Grid>
+</Window>

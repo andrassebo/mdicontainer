@@ -13,19 +13,19 @@ namespace MDIContainer.DemoClient.ViewModels
 {
    public class PersonWindow : ViewModelBase, IContent
    {
-      public string Title
+      public string? Title
       {
          get
          {
-            return Person.Name;
+            return Person?.Name;
          }
       }
 
-      public event EventHandler Closing;
+      public event EventHandler? Closing;
 
-      public RelayCommand CloseCommand { get; private set; }      
+      public RelayCommand? CloseCommand { get; private set; }      
 
-      public Person Person { get; private set; }
+      public Person? Person { get; private set; }
 
       private bool IsDirty { get; set; }
 
@@ -37,7 +37,7 @@ namespace MDIContainer.DemoClient.ViewModels
          this.CloseCommand = new RelayCommand(CloseWindow);
       }
 
-      private void CloseWindow(object p)
+      private void CloseWindow(object? p)
       {
          if (this.CanClose)
          {

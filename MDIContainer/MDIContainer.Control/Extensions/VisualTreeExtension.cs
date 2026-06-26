@@ -9,23 +9,25 @@ namespace MDIContainer.Control.Extensions
 {
    internal static class VisualTreeExtension
    {
-      public static TParent FindSpecificParent<TParent>(FrameworkElement sender)
+      public static TParent FindSpecificParent<TParent>(FrameworkElement element)
          where TParent : FrameworkElement
       {
-         var current = sender;
-         var p = VisualTreeHelper.GetParent(current) as FrameworkElement;
+         var current = VisualTreeHelper.GetParent(element) as FrameworkElement;
 
-         if (p != null && p.GetType() != typeof(TParent))
+         while (current != null)
          {
-            p = FindSpecificParent<TParent>(p);
+            if (current is TParent parent)
+               return parent;
+
+            current = VisualTreeHelper.GetParent(current) as FrameworkElement;
          }
 
-         return p as TParent;
+         return null!;
       }
 
       public static MDIWindow FindMDIWindow(FrameworkElement sender)
       {
-         return FindSpecificParent<MDIWindow>(sender);
+         return FindSpecificParent<MDIWindow>(sender)!;
       }
    }
 }

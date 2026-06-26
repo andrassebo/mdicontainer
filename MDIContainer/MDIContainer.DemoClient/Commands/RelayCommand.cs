@@ -8,10 +8,10 @@
 
    public class RelayCommand : ICommand
    {
-      private Action<object> ExecuteAction { get; set; }
-      private Predicate<object> CanExecutePredicate { get; set; }
+      private Action<object?>? ExecuteAction { get; set; }
+      private Predicate<object?>? CanExecutePredicate { get; set; }
 
-      public event EventHandler CanExecuteChanged
+      public event EventHandler? CanExecuteChanged
       {
          add
          {
@@ -24,25 +24,25 @@
          }
       }
 
-      public RelayCommand(Action<object> executeAction)
+      public RelayCommand(Action<object?> executeAction)
          : this(executeAction, p => true)
       {
       }
 
-      public RelayCommand(Action<object> executeAction, Predicate<object> canExecutePredicate)
+      public RelayCommand(Action<object?> executeAction, Predicate<object?>? canExecutePredicate)
       {
          this.ExecuteAction = executeAction;
          this.CanExecutePredicate = canExecutePredicate;
       }
 
       [DebuggerStepThrough]
-      public bool CanExecute(object parameter)
+      public bool CanExecute(object? parameter)
       {
          return this.CanExecutePredicate == null || this.CanExecutePredicate(parameter);
       }
 
       [DebuggerStepThrough]
-      public void Execute(object parameter)
+      public void Execute(object? parameter)
       {
          if (this.ExecuteAction != null)
          {
@@ -53,15 +53,8 @@
       [DebuggerStepThrough]
       public void InvalidateRequerySuggested()
       {
-         Dispatcher dispatcher = Application.Current.Dispatcher;
-         if (dispatcher.CheckAccess())
-         {
-            CommandManager.InvalidateRequerySuggested();
-         }
-         else
-         {
-            dispatcher.BeginInvoke(new Action(CommandManager.InvalidateRequerySuggested));
-         }
+         Application.Current.Dispatcher.BeginInvoke(
+            new Action(CommandManager.InvalidateRequerySuggested));
       }
    }
 

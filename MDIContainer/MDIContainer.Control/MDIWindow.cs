@@ -25,7 +25,6 @@ namespace MDIContainer.Control
    [TemplatePart(Name = "PART_Content", Type = typeof(ContentPresenter))]
    [TemplatePart(Name = "PART_MoverThumb", Type = typeof(MoveThumb))]   
    [TemplatePart(Name = "PART_ResizerThumb", Type = typeof(ResizeThumb))]
-   [TemplatePart(Name = "PART_Thumblr", Type = typeof(Image))]
    public sealed class MDIWindow : ContentControl
    {
       internal double LastTop { get; set; }
@@ -33,14 +32,12 @@ namespace MDIContainer.Control
       internal double LastWidth { get; set; }
       internal double LastHeight { get; set; }
 
-      internal MDIContainer Container { get; private set; }
+      internal MDIContainer? Container { get; private set; }
       internal WindowState PreviousWindowState { get; set; }
 
-      public Image Tumblr { get; private set; }
-
-      private WindowButton closeButton;
-      private WindowButton maximizeButton;
-      private WindowButton minimizeButton;
+      private WindowButton? closeButton;
+      private WindowButton? maximizeButton;
+      private WindowButton? minimizeButton;
 
       static MDIWindow()
       {
@@ -68,9 +65,21 @@ namespace MDIContainer.Control
 
          if (this.WindowState == WindowState.Minimized)
          {
-            Canvas.SetTop(this, this.Container.ActualHeight - 32);
+            if (this.Container != null)
+            {
+               Canvas.SetTop(this, this.Container.ActualHeight - MinimizedWindowHeight);
+            }
          }
       }
+
+      public double MinimizedWindowHeight
+      {
+         get { return (double)GetValue(MinimizedWindowHeightProperty); }
+         set { SetValue(MinimizedWindowHeightProperty, value); }
+      }
+
+      public static readonly DependencyProperty MinimizedWindowHeightProperty =
+          DependencyProperty.Register("MinimizedWindowHeight", typeof(double), typeof(MDIWindow), new PropertyMetadata(32.0));
 
       public override void OnApplyTemplate()
       {
@@ -91,8 +100,6 @@ namespace MDIContainer.Control
          {
             this.minimizeButton.Click += ToggleMinimizeWindow;
          }
-
-         this.Tumblr = this.GetTemplateChild("PART_Tumblr") as Image;
       }     
 
       public bool IsSelected
@@ -104,9 +111,9 @@ namespace MDIContainer.Control
       public static readonly DependencyProperty IsSelectedProperty =
           DependencyProperty.Register("IsSelected", typeof(bool), typeof(MDIWindow), new UIPropertyMetadata(false));
             
-      public string Title
+      public string? Title
       {
-         get { return (string)GetValue(TitleProperty); }
+         get { return (string?)GetValue(TitleProperty); }
          set { SetValue(TitleProperty, value); }
       }
 

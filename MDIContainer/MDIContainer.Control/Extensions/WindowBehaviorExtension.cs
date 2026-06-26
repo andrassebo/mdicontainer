@@ -48,8 +48,6 @@ namespace MDIContainer.Control.Extensions
          AnimateResize(window, 200, 32, true);         
 
          window.WindowState = WindowState.Minimized;
-
-         window.Tumblr.Source = window.CreateSnapshot();
       }
 
       private static void AnimateResize(MDIWindow window, double newWidth, double newHeight, bool lockWindow)

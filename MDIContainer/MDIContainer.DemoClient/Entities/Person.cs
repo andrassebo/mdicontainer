@@ -9,7 +9,7 @@
 
    public class Person : ViewModelBase
    {
-      public event EventHandler Changed;
+      public event EventHandler? Changed;
 
       public Person(string name, DateTime birthDate, string address)
       {
@@ -21,51 +21,33 @@
       private string _name = string.Empty;
       public string Name
       {
-         get
-         {
-            return this._name;
-         }
+         get { return _name; }
          set
          {
-            this._name = value;
-            this.RaisePropertyChanged("Name");
+            if (SetProperty(ref _name, value))
+               this.Changed?.Invoke(this, EventArgs.Empty);
          }
       }
 
       private DateTime _birthDate;
       public DateTime BirthDate
       {
-         get
-         {
-            return this._birthDate;
-         }
+         get { return _birthDate; }
          set
          {
-            this._birthDate = value;
-            this.RaisePropertyChanged("BirthDate");
+            if (SetProperty(ref _birthDate, value))
+               this.Changed?.Invoke(this, EventArgs.Empty);
          }
       }
 
       private string _address = string.Empty;
       public string Address
       {
-         get
-         {
-            return this._address;
-         }
+         get { return _address; }
          set
          {
-            this._address = value;
-            this.RaisePropertyChanged("Address");
-         }
-      }
-
-      protected override void OnPropertyChanged(string propertyName)
-      {
-         var hander = this.Changed;
-         if (hander != null)
-         {
-            hander(this, EventArgs.Empty);
+            if (SetProperty(ref _address, value))
+               this.Changed?.Invoke(this, EventArgs.Empty);
          }
       }
    }

@@ -9,7 +9,7 @@ namespace MDIContainer.Control
 {   
    public sealed class MDIContainer : System.Windows.Controls.Primitives.Selector
    {
-      private IList InternalItemSource { get; set; }
+      private IList? InternalItemSource { get; set; }
       internal int MinimizedWindowsCount { get; private set; }
 
       static MDIContainer()
@@ -40,7 +40,19 @@ namespace MDIContainer.Control
          }
 
          base.PrepareContainerForItemOverride(element, item);
-      }      
+      }
+
+      protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+      {
+         if (element is MDIWindow window)
+         {
+            window.FocusChanged -= OnWindowFocusChanged;
+            window.Closing -= OnWindowClosing;
+            window.WindowStateChanged -= OnWindowStateChanged;
+            window.DataContext = null;
+         }
+         base.ClearContainerForItemOverride(element, item);
+      }
 
       private void OnWindowStateChanged(object sender, WindowStateChangedEventArgs e)
       {

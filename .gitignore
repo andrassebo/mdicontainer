@@ -250,3 +250,30 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+*~
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Runtime output directory
+/runtime/Debug/
+/runtime/Release/
+
+# .NET build output and package directories
+.netnuget/
+.vs_build/
+
+# User-specific local settings
+launchSettings.json
+
+# Windows
+Thumbs.db
+ehthumbs.db
